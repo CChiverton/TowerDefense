@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=8 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
 [ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemy.tscn" id="2_28xds"]
+[ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Tower.tscn" id="2_f6stt"]
 [ext_resource type="PackedScene" uid="uid://cdttlkqc3vrn0" path="res://Scenes/EndZone.tscn" id="3_mm1a1"]
 [ext_resource type="Script" path="res://Scripts/PlayerZone.cs" id="4_dau4b"]
 [ext_resource type="Script" path="res://Scripts/LifeCounter.cs" id="5_x6ljg"]
@@ -14,6 +15,11 @@ point_count = 2
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_yg2as")
+
+[node name="Towers" type="Node" parent="."]
+
+[node name="Tower" parent="Towers" instance=ExtResource("2_f6stt")]
+position = Vector2(556, 385)
 
 [node name="EnemyPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_eets0")
