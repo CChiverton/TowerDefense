@@ -12,10 +12,20 @@ public partial class Game : Node2D
 		GetNode<LifeCounter>("UI/LifeCounter").SetLives(Lives);
 	}
 
+	/************* Game functions *************/
+	
 	private void OnPlayerZoneLifeLoss()
 	{
 		Lives -= 1;
 		GetNode<LifeCounter>("UI/LifeCounter").SetLives(Lives);
+	}
+	
+	public void SpawnBullet(PackedScene bullet, Vector2 direction, Vector2 position)
+	{
+		var SpawnedBullet = bullet.Instantiate<Bullet>();
+		SpawnedBullet.Direction = direction;
+		SpawnedBullet.GlobalPosition = position;
+		AddChild(SpawnedBullet);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

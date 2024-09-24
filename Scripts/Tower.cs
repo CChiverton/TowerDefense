@@ -5,16 +5,28 @@ public partial class Tower : Area2D
 {
 	private float _posX, _posY;
 	private float _attackRange = 150;
+
+	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
+	[Signal]
+	public delegate void FireBulletEventHandler(PackedScene bullet, Vector2 direction, Vector2 position);
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_posX = GlobalPosition.X;
 		_posY = GlobalPosition.Y;
+
+		FireBullet += GetNode<Game>("/root/Game").SpawnBullet;
+	}
+	
+	private void Shoot(Node2D enemy)
+	{
+		EmitSignal(SignalName.FireBullet, _bullet, GlobalPosition.DirectionTo(enemy.GlobalPosition), GlobalPosition);
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Node2D NearestEnemy;
+		Node2D NearestEnemy = null;
 		float NearestDistance = 1000;
 
 		foreach (Node2D enemy in GetTree().GetNodesInGroup("Enemies"))
@@ -29,8 +41,7 @@ public partial class Tower : Area2D
 		}
 		if (NearestDistance < _attackRange)
 		{
-			GD.Print("Enemy Within Range");
-			// Fire at enemy
+			Shoot(NearestEnemy);
 		}
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
