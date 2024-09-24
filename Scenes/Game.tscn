@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=6 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
 [ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemy.tscn" id="2_28xds"]
+[ext_resource type="PackedScene" uid="uid://cdttlkqc3vrn0" path="res://Scenes/EndZone.tscn" id="3_mm1a1"]
+[ext_resource type="Script" path="res://Scripts/PlayerZone.cs" id="4_dau4b"]
 
 [sub_resource type="Curve2D" id="Curve2D_eets0"]
 _data = {
@@ -20,3 +22,7 @@ position = Vector2(-2, 323)
 rotation = -0.0026019
 
 [node name="Enemy" parent="EnemyPath/EnemyPathFollow" instance=ExtResource("2_28xds")]
+
+[node name="PlayerZone" parent="." instance=ExtResource("3_mm1a1")]
+position = Vector2(1131, 6)
+script = ExtResource("4_dau4b")
