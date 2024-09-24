@@ -5,6 +5,7 @@ public partial class Tower : Area2D
 {
 	private float _posX, _posY;
 	private float _attackRange = 150;
+	private Timer ShootCooldown;
 
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
 	[Signal]
@@ -16,12 +17,17 @@ public partial class Tower : Area2D
 		_posX = GlobalPosition.X;
 		_posY = GlobalPosition.Y;
 
+		ShootCooldown = GetNode<Timer>("ShootTimer");
 		FireBullet += GetNode<Game>("/root/Game").SpawnBullet;
 	}
 	
 	private void Shoot(Node2D enemy)
 	{
-		EmitSignal(SignalName.FireBullet, _bullet, GlobalPosition.DirectionTo(enemy.GlobalPosition), GlobalPosition);
+		if (ShootCooldown.IsStopped())
+		{
+			EmitSignal(SignalName.FireBullet, _bullet, GlobalPosition.DirectionTo(enemy.GlobalPosition), GlobalPosition);
+			ShootCooldown.Start(ShootCooldown.WaitTime);
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)

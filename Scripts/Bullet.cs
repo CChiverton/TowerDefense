@@ -21,6 +21,13 @@ public partial class Bullet : Area2D
 		
 	}
 	
+	private void OnAreaEntered(Node2D body)
+	{
+		if (body.IsInGroup("Enemies"))
+		{
+			QueueFree();
+		}
+	}
 	private void OnVisibleOnScreenNotifier2DScreenExited()
 	{
 		QueueFree();
