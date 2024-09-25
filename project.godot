@@ -22,3 +22,9 @@ project/assembly_name="TowerDefense"
 [global_group]
 
 Enemies="All units that are targetable by Tower"
+
+[layer_names]
+
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Bullet"

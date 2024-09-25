@@ -3,16 +3,16 @@ using System;
 
 public partial class Enemy : Area2D
 {
-	private PathFollow2D _path;
-	private float _speed = 50.0F;
+	public float Speed = 50.0F;
 
 	[Signal]
 	public delegate void PlayerBaseReachedEventHandler();
+	[Signal]
+	public delegate void UnitHitEventHandler();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_path = GetParent<PathFollow2D>();
 	}
 
 	private void OnAreaEntered(Node2D body)
@@ -20,19 +20,18 @@ public partial class Enemy : Area2D
 		if (body.HasMethod("RemoveLife"))
 		{
 			body.Call("RemoveLife");
+			EmitSignal(SignalName.UnitHit);
 		}
-		QueueFree();
 	}
 	
-	// Path following code to move unit along
-	private void Follow(double delta)
+	public void BulletHit()
 	{
-		_path.SetProgress(_path.GetProgress() + _speed * (float)delta);
+		EmitSignal(SignalName.UnitHit);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		Follow(delta);
+		
 	}
 }

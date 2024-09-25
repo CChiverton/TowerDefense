@@ -25,6 +25,7 @@ public partial class Bullet : Area2D
 	{
 		if (body.IsInGroup("Enemies"))
 		{
+			body.Call("BulletHit");
 			QueueFree();
 		}
 	}
