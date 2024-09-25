@@ -10,7 +10,6 @@ public partial class Game : Node2D
 	{
 		Lives = 100;
 		GetNode<LifeCounter>("UI/LifeCounter").SetLives(Lives);
-		GetNode<Timer>("EnemyTimer").Start();
 	}
 
 	/************* Game functions *************/
@@ -27,14 +26,6 @@ public partial class Game : Node2D
 		SpawnedBullet.Direction = direction;
 		SpawnedBullet.GlobalPosition = position;
 		AddChild(SpawnedBullet);
-	}
-	
-	[Export]
-	public PackedScene EnemyScene {get; set;}
-	public void OnEnemyTimerTimeout()
-	{
-		var enemy = EnemyScene.Instantiate<Path2D>();
-		AddChild(enemy);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

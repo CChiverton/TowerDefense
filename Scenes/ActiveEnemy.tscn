@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwqsplsljtifi"]
+
+[ext_resource type="Script" path="res://Scripts/EnemyControl.cs" id="1_1wfy4"]
+[ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemy.tscn" id="1_svhay"]
+
+[node name="PathFollow2D" type="PathFollow2D"]
+script = ExtResource("1_1wfy4")
+
+[node name="Enemy" parent="." instance=ExtResource("1_svhay")]
+
+[connection signal="UnitHit" from="Enemy" to="." method="OnEnemyUnitHit"]
