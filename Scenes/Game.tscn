@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=8 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
 [ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Tower.tscn" id="2_f6stt"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dan6g1upe4cgg" path="res://Scenes/LevelOne.tscn" id="3_xdsh8"]
 [ext_resource type="Script" path="res://Scripts/PlayerZone.cs" id="4_dau4b"]
 [ext_resource type="Script" path="res://Scripts/LifeCounter.cs" id="5_x6ljg"]
+[ext_resource type="Script" path="res://Scripts/GoldCounter.cs" id="7_744xx"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_yg2as")
@@ -33,5 +34,13 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "Lives: "
 script = ExtResource("5_x6ljg")
+
+[node name="GoldCounter" type="Label" parent="UI"]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 48.0
+offset_bottom = 43.0
+text = "Gold:"
+script = ExtResource("7_744xx")
 
 [connection signal="LifeLoss" from="PlayerZone" to="." method="OnPlayerZoneLifeLoss"]
