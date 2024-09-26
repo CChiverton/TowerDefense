@@ -6,6 +6,8 @@ public partial class Tower : Area2D
 	private float _posX, _posY;
 	private float _attackRange = 150;
 	private Timer ShootCooldown;
+	private float _movement = 0;
+	private float _speed = 20;
 
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
 
@@ -35,11 +37,6 @@ public partial class Tower : Area2D
 		}
 	}
 	
-	public void MoveTower()
-	{
-		Position += new Vector2(-10, 0);
-	}
-	
 	private void OnAreaEntered(Node2D body)
 	{
 		if (body.IsInGroup("Enemies"))
@@ -51,8 +48,8 @@ public partial class Tower : Area2D
 			}
 		}
 	}
-
-	public override void _PhysicsProcess(double delta)
+	
+	private void TargetEnemy()
 	{
 		Node2D NearestEnemy = null;
 		float NearestDistance = 1000;
@@ -70,6 +67,33 @@ public partial class Tower : Area2D
 		if (NearestDistance < _attackRange)
 		{
 			Shoot(NearestEnemy);
+		}
+	}
+	
+	public void AddTowerMovement()
+	{
+		_movement += 10;
+	}
+	
+	private void MoveTower(double delta)
+	{
+		float MaxMovement = (float)delta * _speed;
+		if (MaxMovement > _movement)
+		{
+			Position -= new Vector2(_movement, 0);
+			_movement = 0;
+		} else {
+			Position -= new Vector2(MaxMovement, 0);
+			_movement -= MaxMovement;
+		}
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		TargetEnemy();
+		if(_movement > 0)
+		{
+			MoveTower(delta);
 		}
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
