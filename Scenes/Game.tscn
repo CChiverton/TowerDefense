@@ -23,20 +23,24 @@ position = Vector2(1131, 6)
 [node name="EnemyZone" parent="." groups=["Enemies"] instance=ExtResource("3_mm1a1")]
 position = Vector2(16, 0)
 
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UICanvas" type="CanvasLayer" parent="."]
 
-[node name="LifeCounter" type="Label" parent="UI"]
+[node name="UI" type="Control" parent="UICanvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LifeCounter" type="Label" parent="UICanvas/UI"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Lives: "
 script = ExtResource("5_x6ljg")
 
-[node name="GoldCounter" type="Label" parent="UI"]
+[node name="GoldCounter" type="Label" parent="UICanvas/UI"]
 layout_mode = 0
 offset_top = 20.0
 offset_right = 48.0
