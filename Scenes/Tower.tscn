@@ -21,3 +21,5 @@ shape = SubResource("CircleShape2D_3kj81")
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
+
+[node name="Bullets" type="Node" parent="."]

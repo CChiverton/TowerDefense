@@ -28,14 +28,6 @@ public partial class Game : Node2D
 		Gold += gold;
 		GetNode<GoldCounter>("UI/GoldCounter").SetGold(Gold);
 	}
-	
-	public void SpawnBullet(PackedScene bullet, Vector2 direction, Vector2 position)
-	{
-		var SpawnedBullet = bullet.Instantiate<Bullet>();
-		SpawnedBullet.Direction = direction;
-		SpawnedBullet.GlobalPosition = position;
-		AddChild(SpawnedBullet);
-	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

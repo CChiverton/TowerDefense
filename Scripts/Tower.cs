@@ -8,8 +8,6 @@ public partial class Tower : Area2D
 	private Timer ShootCooldown;
 
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
-	[Signal]
-	public delegate void FireBulletEventHandler(PackedScene bullet, Vector2 direction, Vector2 position);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -18,16 +16,28 @@ public partial class Tower : Area2D
 		_posY = GlobalPosition.Y;
 
 		ShootCooldown = GetNode<Timer>("ShootTimer");
-		FireBullet += GetNode<Game>("/root/Game").SpawnBullet;
+	}
+	
+	private void SpawnBullet(Vector2 direction)
+	{
+		var SpawnedBullet = _bullet.Instantiate<Bullet>();
+		SpawnedBullet.Direction = direction;
+		SpawnedBullet.Position = GlobalPosition;				// Spawn on the parent
+		GetNode<Node>("Bullets").AddChild(SpawnedBullet);		// Spawn in group to decouple position from parent
 	}
 	
 	private void Shoot(Node2D enemy)
 	{
 		if (ShootCooldown.IsStopped())
 		{
-			EmitSignal(SignalName.FireBullet, _bullet, GlobalPosition.DirectionTo(enemy.GlobalPosition), GlobalPosition);
+			SpawnBullet(GlobalPosition.DirectionTo(enemy.GlobalPosition));
 			ShootCooldown.Start(ShootCooldown.WaitTime);
 		}
+	}
+	
+	public void MoveTower()
+	{
+		Position += new Vector2(-10, 0);
 	}
 
 	public override void _PhysicsProcess(double delta)
