@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=9 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
 [ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Tower.tscn" id="2_f6stt"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://dan6g1upe4cgg" path="res://Scenes/LevelOne.tscn" id="3_xdsh8"]
 [ext_resource type="Script" path="res://Scripts/LifeCounter.cs" id="5_x6ljg"]
 [ext_resource type="Script" path="res://Scripts/GoldCounter.cs" id="7_744xx"]
+[ext_resource type="Texture2D" uid="uid://dgo647ogpu8es" path="res://Assets/Textures/Tower.png" id="7_xttmt"]
+[ext_resource type="Script" path="res://Scripts/ShopButtons.cs" id="9_3av8e"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_yg2as")
@@ -48,4 +50,26 @@ offset_bottom = 43.0
 text = "Gold:"
 script = ExtResource("7_744xx")
 
+[node name="Shop" type="AspectRatioContainer" parent="UICanvas/UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -93.0
+grow_horizontal = 2
+grow_vertical = 0
+ratio = 1.25
+
+[node name="BasicTowerButton" type="Button" parent="UICanvas/UI/Shop"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Basic Tower"
+icon = ExtResource("7_xttmt")
+autowrap_mode = 2
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("9_3av8e")
+
 [connection signal="LifeLoss" from="PlayerZone" to="." method="OnPlayerZoneLifeLoss"]
+[connection signal="button_down" from="UICanvas/UI/Shop/BasicTowerButton" to="UICanvas/UI/Shop/BasicTowerButton" method="OnButtonDown"]
