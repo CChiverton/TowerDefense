@@ -39,6 +39,18 @@ public partial class Tower : Area2D
 	{
 		Position += new Vector2(-10, 0);
 	}
+	
+	private void OnAreaEntered(Node2D body)
+	{
+		if (body.IsInGroup("Enemies"))
+		{
+			if (body.HasMethod("DestroyTower"))
+			{
+				body.Call("DestroyTower");
+				QueueFree();
+			}
+		}
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{

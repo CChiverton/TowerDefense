@@ -26,6 +26,7 @@ project/assembly_name="TowerDefense"
 [global_group]
 
 Enemies="All units that are targetable by Tower"
+Players=""
 
 [layer_names]
 

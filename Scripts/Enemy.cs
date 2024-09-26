@@ -7,7 +7,7 @@ public partial class Enemy : Area2D
 
 	[Signal]
 	public delegate void PlayerBaseReachedEventHandler();
-	[Signal]
+	[Signal]		// Connects to EnemyControl.cs to handle unit destruction
 	public delegate void UnitHitEventHandler();
 
 	// Called when the node enters the scene tree for the first time.
@@ -17,13 +17,17 @@ public partial class Enemy : Area2D
 
 	private void OnAreaEntered(Node2D body)
 	{
-		if (body.HasMethod("RemoveLife"))
+		if (body.IsInGroup("Players"))
 		{
-			body.Call("RemoveLife");
-			EmitSignal(SignalName.UnitHit);
+			if (body.HasMethod("RemoveLife"))
+			{
+				body.Call("RemoveLife");
+				EmitSignal(SignalName.PlayerBaseReached);
+			}
 		}
 	}
 	
+	// Called by a bullet colliding with this unit
 	public void BulletHit()
 	{
 		EmitSignal(SignalName.UnitHit);

@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemy.tscn" id="1_svhay"]
 
 [node name="PathFollow2D" type="PathFollow2D"]
+loop = false
 script = ExtResource("1_1wfy4")
 
 [node name="Enemy" parent="." instance=ExtResource("1_svhay")]
 
+[connection signal="PlayerBaseReached" from="Enemy" to="." method="OnEnemyPlayerBaseReached"]
 [connection signal="UnitHit" from="Enemy" to="." method="OnEnemyUnitHit"]

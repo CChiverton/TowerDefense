@@ -6,7 +6,7 @@ public partial class Bullet : Area2D
 	public Vector2 Direction = Vector2.Zero;
 	private int Speed = 300;
 	
-	[Signal]
+	[Signal]		// Called when the bullet collides with an enemy
 	public delegate void EnemyHitEventHandler();
 	
 	// Called when the node enters the scene tree for the first time.
@@ -29,11 +29,15 @@ public partial class Bullet : Area2D
 	{
 		if (body.IsInGroup("Enemies"))
 		{
-			body.Call("BulletHit");
-			EmitSignal(SignalName.EnemyHit);
+			if (body.HasMethod("BulletHit"))
+			{
+				body.Call("BulletHit");
+				EmitSignal(SignalName.EnemyHit);
+			}
 			QueueFree();
 		}
 	}
+	
 	private void OnVisibleOnScreenNotifier2DScreenExited()
 	{
 		QueueFree();

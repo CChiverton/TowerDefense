@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerZone : Area2D
+public partial class EndZone : Area2D
 {
 	[Signal]
 	public delegate void LifeLossEventHandler();
@@ -11,10 +11,15 @@ public partial class PlayerZone : Area2D
 	{
 	}
 	
-	// Called whenever an enemy enters this zone
+	// Called whenever an enemy enters the PlayerZone
 	public void RemoveLife()
 	{
 		EmitSignal(SignalName.LifeLoss);
+	}
+	
+	// Called when a tower enters the EnemyZone
+	public void DestroyTower()
+	{
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

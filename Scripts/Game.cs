@@ -17,7 +17,7 @@ public partial class Game : Node2D
 
 	/************* Game functions *************/
 	
-	private void OnPlayerZoneLifeLoss()
+	public void OnPlayerZoneLifeLoss()
 	{
 		Lives -= 1;
 		GetNode<LifeCounter>("UI/LifeCounter").SetLives(Lives);

@@ -15,7 +15,6 @@ public partial class LevelOne : Node2D
 	{
 		var enemy = EnemyScene.Instantiate<PathFollow2D>();
 		GetNode("Path2D").AddChild(enemy);
-		//GD.Print("EnemySpawned");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
