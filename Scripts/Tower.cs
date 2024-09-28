@@ -8,6 +8,7 @@ public partial class Tower : Area2D
 	private Timer ShootCooldown;
 	private float _movement = 0;
 	private float _speed = 20;
+	public int Cost = 50;
 	public bool TargetingActive = true;
 
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
