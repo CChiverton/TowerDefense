@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=6 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
-[ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Tower.tscn" id="2_f6stt"]
+[ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Towers/Tower.tscn" id="2_f6stt"]
 [ext_resource type="PackedScene" uid="uid://cdttlkqc3vrn0" path="res://Scenes/EndZone.tscn" id="3_mm1a1"]
 [ext_resource type="PackedScene" uid="uid://dan6g1upe4cgg" path="res://Scenes/LevelOne.tscn" id="3_xdsh8"]
-[ext_resource type="Script" path="res://Scripts/LifeCounter.cs" id="5_x6ljg"]
-[ext_resource type="Script" path="res://Scripts/GoldCounter.cs" id="7_744xx"]
-[ext_resource type="Texture2D" uid="uid://dgo647ogpu8es" path="res://Assets/Textures/Tower.png" id="7_xttmt"]
-[ext_resource type="Script" path="res://Scripts/ShopButtons.cs" id="9_3av8e"]
+[ext_resource type="PackedScene" uid="uid://0y2b4dbt12p1" path="res://Scenes/UICanvas.tscn" id="5_gk56f"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_yg2as")
@@ -25,51 +22,6 @@ position = Vector2(1131, 6)
 [node name="EnemyZone" parent="." groups=["Enemies"] instance=ExtResource("3_mm1a1")]
 position = Vector2(16, 0)
 
-[node name="UICanvas" type="CanvasLayer" parent="."]
-
-[node name="UI" type="Control" parent="UICanvas"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="LifeCounter" type="Label" parent="UICanvas/UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Lives: "
-script = ExtResource("5_x6ljg")
-
-[node name="GoldCounter" type="Label" parent="UICanvas/UI"]
-layout_mode = 0
-offset_top = 20.0
-offset_right = 48.0
-offset_bottom = 43.0
-text = "Gold:"
-script = ExtResource("7_744xx")
-
-[node name="Shop" type="AspectRatioContainer" parent="UICanvas/UI"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -93.0
-grow_horizontal = 2
-grow_vertical = 0
-ratio = 1.25
-
-[node name="BasicTowerButton" type="Button" parent="UICanvas/UI/Shop"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Basic Tower"
-icon = ExtResource("7_xttmt")
-autowrap_mode = 2
-icon_alignment = 1
-expand_icon = true
-script = ExtResource("9_3av8e")
+[node name="UICanvas" parent="." instance=ExtResource("5_gk56f")]
 
 [connection signal="LifeLoss" from="PlayerZone" to="." method="OnPlayerZoneLifeLoss"]
-[connection signal="button_down" from="UICanvas/UI/Shop/BasicTowerButton" to="UICanvas/UI/Shop/BasicTowerButton" method="OnButtonDown"]

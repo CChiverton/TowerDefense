@@ -8,6 +8,7 @@ public partial class Tower : Area2D
 	private Timer ShootCooldown;
 	private float _movement = 0;
 	private float _speed = 20;
+	public bool TargetingActive = true;
 
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
 
@@ -16,7 +17,7 @@ public partial class Tower : Area2D
 	{
 		_posX = GlobalPosition.X;
 		_posY = GlobalPosition.Y;
-
+		
 		ShootCooldown = GetNode<Timer>("ShootTimer");
 	}
 	
@@ -51,22 +52,25 @@ public partial class Tower : Area2D
 	
 	private void TargetEnemy()
 	{
-		Node2D NearestEnemy = null;
-		float NearestDistance = 1000;
-
-		foreach (Node2D enemy in GetTree().GetNodesInGroup("Enemies"))
+		if (TargetingActive)
 		{
-			float Distance = Position.DistanceTo(enemy.GlobalPosition);
+			Node2D NearestEnemy = null;
+			float NearestDistance = 1000;
 
-			if (Distance < NearestDistance)
+			foreach (Node2D enemy in GetTree().GetNodesInGroup("Enemies"))
 			{
-				NearestDistance = Distance;
-				NearestEnemy = enemy;
+				float Distance = Position.DistanceTo(enemy.GlobalPosition);
+
+				if (Distance < NearestDistance)
+				{
+					NearestDistance = Distance;
+					NearestEnemy = enemy;
+				}
 			}
-		}
-		if (NearestDistance < _attackRange)
-		{
-			Shoot(NearestEnemy);
+			if (NearestDistance < _attackRange)
+			{
+				Shoot(NearestEnemy);
+			}
 		}
 	}
 	

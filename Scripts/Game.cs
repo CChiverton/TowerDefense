@@ -7,6 +7,8 @@ public partial class Game : Node2D
 	public int Gold = 100;
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
+	private bool _buildMode;
+	private Area2D TowerBuild;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -17,6 +19,7 @@ public partial class Game : Node2D
 		_goldCounter = GetNode<GoldCounter>("UICanvas/UI/GoldCounter");
 		_lifeCounter.SetLives(Lives);
 		_goldCounter.SetGold(Gold);
+		_buildMode = false;
 	}
 
 	/************* Game functions *************/
@@ -32,9 +35,23 @@ public partial class Game : Node2D
 		Gold += gold;
 		_goldCounter.SetGold(Gold);
 	}
+	
+	public void BuildingStart(PackedScene scene)
+	{
+		_buildMode = true;
+		Tower Tower = scene.Instantiate<Tower>();
+		Tower.Position = GetGlobalMousePosition();
+		GetNode("Towers").AddChild(Tower);
+		Tower.TargetingActive = false;
+		TowerBuild = Tower;
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (_buildMode)
+		{
+			TowerBuild.Position = GetGlobalMousePosition();
+		}
 	}
 }

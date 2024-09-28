@@ -1,13 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://bwqsplsljtifi"]
 
-[ext_resource type="Script" path="res://Scripts/EnemyControl.cs" id="1_1wfy4"]
-[ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemy.tscn" id="1_svhay"]
+[ext_resource type="Script" path="res://Scripts/EnemyControl.cs" id="1_raiq8"]
+[ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemies/Enemy.tscn" id="2_5gdn4"]
 
 [node name="PathFollow2D" type="PathFollow2D"]
 loop = false
-script = ExtResource("1_1wfy4")
+script = ExtResource("1_raiq8")
 
-[node name="Enemy" parent="." instance=ExtResource("1_svhay")]
+[node name="Enemy" parent="." instance=ExtResource("2_5gdn4")]
 
 [connection signal="PlayerBaseReached" from="Enemy" to="." method="OnEnemyPlayerBaseReached"]
 [connection signal="UnitHit" from="Enemy" to="." method="OnEnemyUnitHit"]
