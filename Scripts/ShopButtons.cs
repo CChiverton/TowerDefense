@@ -6,7 +6,9 @@ public partial class ShopButtons : Button
 	[Export]
 	public PackedScene TowerScene {get; set;}
 	[Signal]
-	public delegate void BuildModeEventHandler(PackedScene scene);
+	public delegate void BuildModeEventHandler(PackedScene scene, int cost);
+	
+	private int _cost = 50;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -16,8 +18,10 @@ public partial class ShopButtons : Button
 	
 	private void OnButtonDown()
 	{
-		EmitSignal(SignalName.BuildMode, TowerScene);
-		GD.Print("Button has been pressed");
+		if (GetNode<Game>("/root/Game").Gold >= _cost)
+		{
+			EmitSignal(SignalName.BuildMode, TowerScene, _cost);
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

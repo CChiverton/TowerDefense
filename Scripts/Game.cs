@@ -7,9 +7,12 @@ public partial class Game : Node2D
 	public int Gold = 100;
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
+	
+	// Tower building
 	private bool _buildMode;
 	private bool _debounce;
 	private Tower TowerBuild;
+	private int _cost;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,6 +25,7 @@ public partial class Game : Node2D
 		_goldCounter.SetGold(Gold);
 		_buildMode = false;
 		_debounce = false;
+		_cost = 0;
 	}
 
 	/************* Game functions *************/
@@ -38,18 +42,19 @@ public partial class Game : Node2D
 		_goldCounter.SetGold(Gold);
 	}
 	
-	public void BuildingStart(PackedScene scene)
+	public void BuildingStart(PackedScene scene, int cost)
 	{
+		_buildMode = true;
+		_debounce = false;
 		Tower Tower = scene.Instantiate<Tower>();
 		Tower.Position = GetGlobalMousePosition();
 		GetNode("Towers").AddChild(Tower);
 		Tower.TargetingActive = false;
 		TowerBuild = Tower;
-		_buildMode = true;
+		_cost = cost;
 	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	
+	private void BuildTower()
 	{
 		if (_buildMode)
 		{
@@ -59,12 +64,18 @@ public partial class Game : Node2D
 			{
 				GD.Print("Mouse Pressed");
 				TowerBuild.TargetingActive = true;
-				ChangeGold(-TowerBuild.Cost);
+				ChangeGold(-_cost);
 				TowerBuild = null;
 				_buildMode = false;
 				_debounce = false;
 			}
 			_debounce = true;
 		}
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(double delta)
+	{
+		BuildTower();
 	}
 }
