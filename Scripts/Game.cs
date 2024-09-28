@@ -42,6 +42,13 @@ public partial class Game : Node2D
 		_goldCounter.SetGold(Gold);
 	}
 	
+	private void BuildModeReset()
+	{
+		TowerBuild = null;
+		_buildMode = false;
+		_debounce = false;
+	}
+	
 	public void BuildingStart(PackedScene scene, int cost)
 	{
 		_buildMode = true;
@@ -52,6 +59,15 @@ public partial class Game : Node2D
 		Tower.TargetingActive = false;
 		TowerBuild = Tower;
 		_cost = cost;
+	}
+	
+	private void BuildingStop()
+	{
+		if (Input.IsActionJustPressed("MouseRight") || Input.IsActionJustPressed("Escape"))
+		{
+			BuildModeReset();
+			GetNode("Towers").GetChild(-1).QueueFree();
+		}
 	}
 	
 	private void BuildTower()
@@ -65,9 +81,7 @@ public partial class Game : Node2D
 				GD.Print("Mouse Pressed");
 				TowerBuild.TargetingActive = true;
 				ChangeGold(-_cost);
-				TowerBuild = null;
-				_buildMode = false;
-				_debounce = false;
+				BuildModeReset();
 			}
 			_debounce = true;
 		}
@@ -76,6 +90,7 @@ public partial class Game : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		BuildingStop();
 		BuildTower();
 	}
 }
