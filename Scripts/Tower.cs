@@ -69,6 +69,15 @@ public partial class Tower : Area2D
 					QueueFree();
 				}
 			}
+			
+			if (body.IsInGroup("Players"))
+			{
+				if (body.HasMethod("DestroyTower"))
+				{
+					body.Call("DestroyTower");
+					QueueFree();
+				}
+			}
 		}
 	}
 	
