@@ -5,8 +5,10 @@ public partial class Game : Node2D
 {
 	public int Lives = 100;
 	public int Gold = 100;
+	private int _score = 0;
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
+	private ScoreCounter _scoreCounter;
 	
 	// Tower building
 	private bool _buildMode;
@@ -19,10 +21,13 @@ public partial class Game : Node2D
 	{
 		Lives = 100;
 		Gold = 100;
+		_score = 0;
 		_lifeCounter = GetNode<LifeCounter>("UICanvas/UI/LifeCounter");
 		_goldCounter = GetNode<GoldCounter>("UICanvas/UI/GoldCounter");
+		_scoreCounter = GetNode<ScoreCounter>("UICanvas/UI/ScoreCounter");
 		_lifeCounter.SetLives(Lives);
 		_goldCounter.SetGold(Gold);
+		_scoreCounter.SetScore(_score);
 		_buildMode = false;
 		_debounce = false;
 		_cost = 0;
@@ -40,6 +45,12 @@ public partial class Game : Node2D
 	{
 		Gold += gold;
 		_goldCounter.SetGold(Gold);
+	}
+	
+	public void IncrementScore()
+	{
+		_score++;
+		_scoreCounter.SetScore(_score);
 	}
 	
 	private void BuildModeReset()

@@ -9,7 +9,9 @@ public partial class Tower : Area2D
 	private float _movement = 0;
 	private float _speed = 20;
 	public bool TargetingActive = true;
-
+	[Signal]
+	public delegate void EnemyKilledEventHandler();
+	
 	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
 
 	// Called when the node enters the scene tree for the first time.
@@ -19,6 +21,7 @@ public partial class Tower : Area2D
 		_posY = GlobalPosition.Y;
 		
 		ShootCooldown = GetNode<Timer>("ShootTimer");
+		EnemyKilled += GetNode<Game>("/root/Game").IncrementScore;
 	}
 	
 	private void SpawnBullet(Vector2 direction)
@@ -77,6 +80,7 @@ public partial class Tower : Area2D
 	public void AddTowerMovement()
 	{
 		_movement += 10;
+		EmitSignal(SignalName.EnemyKilled);
 	}
 	
 	private void MoveTower(double delta)

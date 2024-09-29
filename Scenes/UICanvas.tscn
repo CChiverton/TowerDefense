@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://0y2b4dbt12p1"]
+[gd_scene load_steps=7 format=3 uid="uid://0y2b4dbt12p1"]
 
-[ext_resource type="Script" path="res://Scripts/LifeCounter.cs" id="1_5ki04"]
-[ext_resource type="Script" path="res://Scripts/GoldCounter.cs" id="2_d301u"]
+[ext_resource type="Script" path="res://Scripts/UI/LifeCounter.cs" id="1_5ki04"]
+[ext_resource type="Script" path="res://Scripts/UI/GoldCounter.cs" id="2_d301u"]
 [ext_resource type="Texture2D" uid="uid://dgo647ogpu8es" path="res://Assets/Textures/Tower.png" id="3_01xf5"]
-[ext_resource type="Script" path="res://Scripts/ShopButtons.cs" id="4_enic8"]
+[ext_resource type="Script" path="res://Scripts/UI/ScoreCounter.cs" id="3_sb4dm"]
+[ext_resource type="Script" path="res://Scripts/UI/ShopButtons.cs" id="4_enic8"]
 [ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Towers/Tower.tscn" id="5_03yq2"]
 
 [node name="UICanvas" type="CanvasLayer"]
@@ -30,6 +31,19 @@ offset_right = 48.0
 offset_bottom = 43.0
 text = "Gold:"
 script = ExtResource("2_d301u")
+
+[node name="ScoreCounter" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -110.0
+offset_right = -58.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Score: "
+script = ExtResource("3_sb4dm")
 
 [node name="Shop" type="AspectRatioContainer" parent="UI"]
 layout_mode = 1
