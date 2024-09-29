@@ -5,7 +5,7 @@ public partial class Enemy : Area2D
 {
 	public float Speed = 50.0F;
 	[Export]
-	private int _health {get; set;}
+	private float _health {get; set;}
 
 	[Signal]
 	public delegate void PlayerBaseReachedEventHandler();
@@ -15,6 +15,8 @@ public partial class Enemy : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_health = _health * (1 +(float)(GetNode<Game>("/root/Game").BoardValue / 500.0F));
+		GD.Print(_health);
 	}
 
 	private void OnAreaEntered(Node2D body)
