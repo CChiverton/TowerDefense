@@ -6,9 +6,11 @@ public partial class Game : Node2D
 	public int Lives = 100;
 	public int Gold = 100;
 	private int _score = 0;
+	private int _boardValue = 0;
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
 	private ScoreCounter _scoreCounter;
+	private BoardValue _boardValueCounter;
 	
 	// Tower building
 	private bool _buildMode;
@@ -22,12 +24,15 @@ public partial class Game : Node2D
 		Lives = 100;
 		Gold = 100;
 		_score = 0;
+		_boardValue = 0;
 		_lifeCounter = GetNode<LifeCounter>("UICanvas/UI/LifeCounter");
 		_goldCounter = GetNode<GoldCounter>("UICanvas/UI/GoldCounter");
 		_scoreCounter = GetNode<ScoreCounter>("UICanvas/UI/ScoreCounter");
+		_boardValueCounter = GetNode<BoardValue>("UICanvas/UI/BoardValue");
 		_lifeCounter.SetLives(Lives);
 		_goldCounter.SetGold(Gold);
 		_scoreCounter.SetScore(_score);
+		_boardValueCounter.SetValue(_boardValue);
 		_buildMode = false;
 		_debounce = false;
 		_cost = 0;
@@ -55,6 +60,12 @@ public partial class Game : Node2D
 	{
 		_score++;
 		_scoreCounter.SetScore(_score);
+	}
+	
+	private void SetValue(int value)
+	{
+		_boardValue += value;
+		_boardValueCounter.SetValue(_boardValue);
 	}
 	
 	private void BuildModeReset()
@@ -96,6 +107,7 @@ public partial class Game : Node2D
 				GD.Print("Mouse Pressed");
 				TowerBuild.TargetingActive = true;
 				ChangeGold(-_cost);
+				SetValue(_cost);
 				BuildModeReset();
 			}
 			_debounce = true;
