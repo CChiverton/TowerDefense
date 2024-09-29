@@ -4,6 +4,8 @@ using System;
 public partial class Enemy : Area2D
 {
 	public float Speed = 50.0F;
+	[Export]
+	private int _health {get; set;}
 
 	[Signal]
 	public delegate void PlayerBaseReachedEventHandler();
@@ -28,9 +30,14 @@ public partial class Enemy : Area2D
 	}
 	
 	// Called by a bullet colliding with this unit
-	public void BulletHit()
+	public bool BulletHit(int damage)
 	{
-		EmitSignal(SignalName.UnitHit);
+		if ((_health -= damage) <= 0)
+		{
+			EmitSignal(SignalName.UnitHit);
+			return true;
+		}
+		return false;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

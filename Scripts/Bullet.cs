@@ -5,6 +5,8 @@ public partial class Bullet : Area2D
 {
 	public Vector2 Direction = Vector2.Zero;
 	private int Speed = 300;
+	[Export]
+	private int _damage {get; set;}
 	
 	[Signal]		// Called when the bullet collides with an enemy
 	public delegate void EnemyHitEventHandler();
@@ -31,8 +33,10 @@ public partial class Bullet : Area2D
 		{
 			if (body.HasMethod("BulletHit"))
 			{
-				body.Call("BulletHit");
-				EmitSignal(SignalName.EnemyHit);
+				if ((bool)body.Call("BulletHit", _damage))
+				{
+					EmitSignal(SignalName.EnemyHit);
+				}
 			}
 			QueueFree();
 		}
