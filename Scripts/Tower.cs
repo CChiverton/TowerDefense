@@ -59,12 +59,15 @@ public partial class Tower : Area2D
 	
 	private void OnAreaEntered(Node2D body)
 	{
-		if (body.IsInGroup("Enemies"))
+		if (TargetingActive)	// Ensures that the 
 		{
-			if (body.HasMethod("DestroyTower"))
+			if (body.IsInGroup("Enemies"))
 			{
-				body.Call("DestroyTower");
-				QueueFree();
+				if (body.HasMethod("DestroyTower"))
+				{
+					body.Call("DestroyTower");
+					QueueFree();
+				}
 			}
 		}
 	}
