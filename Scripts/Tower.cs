@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Tower : Area2D
 {
@@ -8,8 +9,11 @@ public partial class Tower : Area2D
 	private float _attackRange {get; set;}
 	private Timer ShootCooldown;
 	private float _movement = 0;
+	private float _backMove = 5;
+	private float _forwardMove = 15;
 	private float _speed = 20;
 	public bool TargetingActive = true;
+	private List<Node2D> _enemiesInRange = new List<Node2D>();
 	[Signal]
 	public delegate void EnemyKilledEventHandler();
 	
@@ -27,6 +31,7 @@ public partial class Tower : Area2D
 		AttackRange.SetRadius(_attackRange);
 		Sprite2D AttackRangeIndicator = (Sprite2D)GetNode<Sprite2D>("AttackRange/Sprite2D");
 		AttackRangeIndicator.Scale = (new Vector2((_attackRange*2)/AttackRangeIndicator.Texture.GetWidth(),(_attackRange*2)/AttackRangeIndicator.Texture.GetHeight()));
+		
 	}
 	
 	public void SetAttackRangeVisibility(bool active)
@@ -64,6 +69,28 @@ public partial class Tower : Area2D
 		}
 	}
 	
+	private void OnAttackRangeAreaEntered(Node2D body)
+	{
+		if (body.IsInGroup("Enemies"))
+		{
+			_enemiesInRange.Add(body);
+		}
+	}
+	
+	private void OnAttackRangeAreaExited(Node2D body)
+	{
+		if (body.IsInGroup("Enemies"))
+		{
+			_enemiesInRange.Remove(body);
+			float Distance = Position.DistanceTo(body.GlobalPosition);
+			
+			if (Distance < _attackRange)	// Enemy died within range
+			{
+				_movement -= _backMove;
+			}
+		}
+	}
+	
 	private void TargetEnemy()
 	{
 		if (TargetingActive)
@@ -90,30 +117,40 @@ public partial class Tower : Area2D
 	
 	public void AddTowerMovement()
 	{
-		_movement += 10;
+		_movement += _forwardMove;
 		EmitSignal(SignalName.EnemyKilled);
 	}
 	
 	private void MoveTower(double delta)
 	{
 		float MaxMovement = (float)delta * _speed;
-		if (MaxMovement > _movement)
+		if (_movement > 0)
 		{
-			Position -= new Vector2(_movement, 0);
-			_movement = 0;
-		} else {
-			Position -= new Vector2(MaxMovement, 0);
-			_movement -= MaxMovement;
+			if (MaxMovement > _movement)
+			{
+				Position -= new Vector2(_movement, 0);
+				_movement = 0;
+			} else {
+				Position -= new Vector2(MaxMovement, 0);
+				_movement -= MaxMovement;
+			}
+		} else if (_movement < 0) {
+			MaxMovement = -MaxMovement;
+			if (MaxMovement > _movement)
+			{
+				Position -= new Vector2(MaxMovement, 0);
+				_movement -= MaxMovement;
+			} else {
+				Position -= new Vector2(_movement, 0);
+				_movement = 0;
+			}
 		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		TargetEnemy();
-		if(_movement > 0)
-		{
-			MoveTower(delta);
-		}
+		MoveTower(delta);
 	}
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)

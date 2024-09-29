@@ -22,10 +22,11 @@ texture = ExtResource("2_ttak4")
 shape = SubResource("CircleShape2D_3kj81")
 
 [node name="AttackRange" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
 
 [node name="AttackRangeCollider" type="CollisionShape2D" parent="AttackRange"]
 shape = SubResource("CircleShape2D_41skw")
-disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="AttackRange"]
 self_modulate = Color(1, 1, 1, 0.0705882)
@@ -39,3 +40,5 @@ one_shot = true
 [node name="Bullets" type="Node" parent="."]
 
 [connection signal="area_entered" from="." to="." method="OnAreaEntered"]
+[connection signal="area_entered" from="AttackRange" to="." method="OnAttackRangeAreaEntered"]
+[connection signal="area_exited" from="AttackRange" to="." method="OnAttackRangeAreaExited"]
