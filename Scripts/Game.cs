@@ -39,6 +39,10 @@ public partial class Game : Node2D
 	{
 		Lives -= 1;
 		_lifeCounter.SetLives(Lives);
+		if (Lives <= 0)
+		{
+			GetTree().ReloadCurrentScene();
+		}
 	}
 	
 	public void ChangeGold(int gold)
