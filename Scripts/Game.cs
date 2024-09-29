@@ -81,6 +81,7 @@ public partial class Game : Node2D
 		_debounce = false;
 		Tower Tower = scene.Instantiate<Tower>();
 		Tower.Position = GetGlobalMousePosition();
+		Tower.SetAttackRangeVisibility(true);
 		GetNode("Towers").AddChild(Tower);
 		Tower.TargetingActive = false;
 		TowerBuild = Tower;
@@ -104,6 +105,7 @@ public partial class Game : Node2D
 			
 			if (Input.IsActionJustPressed("MouseLeft") && _debounce)
 			{
+				TowerBuild.SetAttackRangeVisibility(false);
 				TowerBuild.TargetingActive = true;
 				ChangeGold(-_cost);
 				SetValue(_cost);

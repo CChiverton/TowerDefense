@@ -4,7 +4,8 @@ using System;
 public partial class Tower : Area2D
 {
 	private float _posX, _posY;
-	private float _attackRange = 150;
+	[Export]
+	private float _attackRange {get; set;}
 	private Timer ShootCooldown;
 	private float _movement = 0;
 	private float _speed = 20;
@@ -22,6 +23,16 @@ public partial class Tower : Area2D
 		
 		ShootCooldown = GetNode<Timer>("ShootTimer");
 		EnemyKilled += GetNode<Game>("/root/Game").IncrementScore;
+		CircleShape2D AttackRange = (CircleShape2D)GetNode<CollisionShape2D>("AttackRange/AttackRangeCollider").Shape;
+		AttackRange.SetRadius(_attackRange);
+		Sprite2D AttackRangeIndicator = (Sprite2D)GetNode<Sprite2D>("AttackRange/Sprite2D");
+		AttackRangeIndicator.Scale = (new Vector2((_attackRange*2)/AttackRangeIndicator.Texture.GetWidth(),(_attackRange*2)/AttackRangeIndicator.Texture.GetHeight()));
+	}
+	
+	public void SetAttackRangeVisibility(bool active)
+	{
+		Sprite2D AttackRangeIndicator = (Sprite2D)GetNode<Sprite2D>("AttackRange/Sprite2D");
+		AttackRangeIndicator.Visible = active;
 	}
 	
 	private void SpawnBullet(Vector2 direction)
@@ -29,7 +40,7 @@ public partial class Tower : Area2D
 		var SpawnedBullet = _bullet.Instantiate<Bullet>();
 		SpawnedBullet.Direction = direction;
 		SpawnedBullet.Position = GlobalPosition;				// Spawn on the parent
-		GetNode<Node>("Bullets").AddChild(SpawnedBullet);		// Spawn in group to decouple position from parent
+		GetNode<Node>("Bullets").AddChild(SpawnedBullet);       // Spawn in group to decouple position from parent
 	}
 	
 	private void Shoot(Node2D enemy)

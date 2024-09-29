@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://wqumre6abce2"]
+[gd_scene load_steps=5 format=3 uid="uid://wqumre6abce2"]
 
 [ext_resource type="Script" path="res://Scripts/Tower.cs" id="1_f2s8p"]
 [ext_resource type="Texture2D" uid="uid://dgo647ogpu8es" path="res://Assets/Textures/Tower.png" id="2_ttak4"]
@@ -6,10 +6,13 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kj81"]
 radius = 14.1421
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_41skw"]
+
 [node name="Tower" type="Area2D"]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_f2s8p")
+_attackRange = 150.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.25, 0.25)
@@ -17,6 +20,17 @@ texture = ExtResource("2_ttak4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3kj81")
+
+[node name="AttackRange" type="Area2D" parent="."]
+
+[node name="AttackRangeCollider" type="CollisionShape2D" parent="AttackRange"]
+shape = SubResource("CircleShape2D_41skw")
+disabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="AttackRange"]
+self_modulate = Color(1, 1, 1, 0.0705882)
+show_behind_parent = true
+texture = ExtResource("2_ttak4")
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.5
