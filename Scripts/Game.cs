@@ -16,6 +16,8 @@ public partial class Game : Node2D
 	private BoardValueCounter _boardValueCounter;
 	private PackedScene _gameOver = GD.Load<PackedScene>("res://Scenes/GameOverScreen.tscn");
 	private bool _lossScreen = false;
+	private PackedScene _pausedScreen = GD.Load<PackedScene>("res://Scenes/PauseScreen.tscn");
+	private bool _paused = false;
 	
 	// Tower building
 	private bool _buildMode;
@@ -102,10 +104,13 @@ public partial class Game : Node2D
 	
 	private void BuildingStop()
 	{
-		if (Input.IsActionJustPressed("MouseRight") || Input.IsActionJustPressed("Escape"))
+		if (_buildMode)
 		{
-			BuildModeReset();
-			GetNode("Towers").GetChild(-1).QueueFree();
+			if (Input.IsActionJustPressed("MouseRight") || Input.IsActionJustPressed("Escape"))
+			{
+				BuildModeReset();
+				GetNode("Towers").GetChild(-1).QueueFree();
+			}
 		}
 	}
 	
@@ -127,9 +132,29 @@ public partial class Game : Node2D
 		}
 	}
 
+	private void GetInput()
+	{
+		if (!_buildMode)
+		{
+			if (Input.IsActionJustPressed("Escape"))
+			{
+				if (_paused)
+				{
+					GetNode<GameOverScreen>("PauseScreen").QueueFree();
+					_paused = false;
+				} else {
+					GameOverScreen Pause = _pausedScreen.Instantiate<GameOverScreen>();
+					AddChild(Pause);
+					_paused = true;
+				}
+			}
+		}
+	}
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		GetInput();
 		BuildingStop();
 		BuildTower();
 	}
