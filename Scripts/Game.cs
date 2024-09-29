@@ -3,20 +3,27 @@ using System;
 
 public partial class Game : Node2D
 {
+	// Game stats
 	public int Lives = 100;
 	public int Gold = 100;
 	private int _score = 0;
 	public int BoardValue = 0;
+	
+	//UI
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
 	private ScoreCounter _scoreCounter;
 	private BoardValueCounter _boardValueCounter;
+	private PackedScene _gameOver = GD.Load<PackedScene>("res://Scenes/GameOverScreen.tscn");
+	private bool _lossScreen = false;
 	
 	// Tower building
 	private bool _buildMode;
 	private bool _debounce;
 	private Tower TowerBuild;
 	private int _cost;
+	
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -42,11 +49,16 @@ public partial class Game : Node2D
 	
 	public void OnPlayerZoneLifeLoss()
 	{
-		Lives -= 1;
-		_lifeCounter.SetLives(Lives);
-		if (Lives <= 0)
+		if (_lossScreen == false)
 		{
-			GetTree().ReloadCurrentScene();
+			Lives -= 1;
+			_lifeCounter.SetLives(Lives);
+			if ((Lives <= 0))
+			{
+				GameOverScreen GameOver = _gameOver.Instantiate<GameOverScreen>();
+				AddChild(GameOver);
+				_lossScreen = true;
+			}
 		}
 	}
 	

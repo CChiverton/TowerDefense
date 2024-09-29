@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqj0itjrmowc5"]
+
+[ext_resource type="Script" path="res://Scripts/UI/GameOverScreen.cs" id="1_2qbcy"]
+
+[node name="GameOverScreen" type="CanvasLayer"]
+script = ExtResource("1_2qbcy")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+self_modulate = Color(1, 1, 1, 0.784314)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Elements" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Title" type="Label" parent="PanelContainer/MarginContainer/Elements"]
+layout_mode = 2
+text = "You Lose"
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PanelContainer/MarginContainer/Elements"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Elements/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="RestartButton" type="Button" parent="PanelContainer/MarginContainer/Elements/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "   Try Again?   "
+
+[node name="QuitButton" type="Button" parent="PanelContainer/MarginContainer/Elements/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/Elements/CenterContainer/VBoxContainer/RestartButton" to="." method="OnRestartButtonPressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Elements/CenterContainer/VBoxContainer/QuitButton" to="." method="OnQuitButtonPressed"]
