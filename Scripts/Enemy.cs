@@ -3,12 +3,15 @@ using System;
 
 public partial class Enemy : Area2D
 {
-	public float Speed = 50.0F;
 	[Export]
 	private float _health {get; set;}
 	private ProgressBar HealthBar;
+	[Export]
+	public float Speed {get; private set;}
+	[Export]
+	public int Value {get; private set;}
 
-	[Signal]
+	[Signal]		// Conects to EnemyControl.cs to handle when this unit reaches the player base
 	public delegate void PlayerBaseReachedEventHandler();
 	[Signal]		// Connects to EnemyControl.cs to handle unit destruction
 	public delegate void UnitHitEventHandler();

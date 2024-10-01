@@ -17,7 +17,7 @@ public partial class EnemyControl : PathFollow2D
 	
 	private void OnEnemyUnitHit()
 	{
-		GetNode<Game>("/root/Game").ChangeGold(1);
+		GetNode<Game>("/root/Game").ChangeGold(GetNode<Enemy>("Enemy").Value);
 		QueueFree();
 	}
 

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwqsplsljtifi"]
+
+[ext_resource type="Script" path="res://Scripts/EnemyControl.cs" id="1_61b5p"]
+[ext_resource type="PackedScene" uid="uid://8kop863rtlxd" path="res://Scenes/Enemies/Enemy.tscn" id="2_qh43b"]
+
+[node name="PathFollow2D" type="PathFollow2D"]
+loop = false
+script = ExtResource("1_61b5p")
+
+[node name="Enemy" parent="." instance=ExtResource("2_qh43b")]
+Speed = 50.0
+Value = 1
+
+[connection signal="PlayerBaseReached" from="Enemy" to="." method="OnEnemyPlayerBaseReached"]
+[connection signal="UnitHit" from="Enemy" to="." method="OnEnemyUnitHit"]
