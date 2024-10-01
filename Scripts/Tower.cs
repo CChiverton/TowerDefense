@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public partial class Tower : Area2D
 {
 	private float _posX, _posY;
+	private int _health = 50;
 	[Export]
 	private float _attackRange {get; set;}
 	private Timer ShootCooldown;
 	private float _movement = 0;
 	private float _backMove = 5;
 	private float _forwardMove = 15;
+	private float _enemyCollision = 50;
 	private float _speed = 20;
 	public bool TargetingActive = true;
 	private List<Node2D> _enemiesInRange = new List<Node2D>();
@@ -63,10 +65,23 @@ public partial class Tower : Area2D
 		{
 			if (body.IsInGroup("Enemies"))
 			{
+				// On colliding with an Endzone
 				if (body.HasMethod("DestroyTower"))
 				{
 					body.Call("DestroyTower");
 					QueueFree();
+				}
+				// On colliding with an enemy unit
+				if (body.HasMethod("BulletHit"))
+				{
+					if ((bool)body.Call("BulletHit", 10000000))	// Guarantee enemy death
+					{
+						if ((_health -= 10) <= 0)
+						{
+							QueueFree();
+						}
+						_movement -= _enemyCollision;
+					}
 				}
 			}
 			
@@ -158,7 +173,7 @@ public partial class Tower : Area2D
 			}
 		}
 	}
-
+	
 	public override void _PhysicsProcess(double delta)
 	{
 		TargetEnemy();
