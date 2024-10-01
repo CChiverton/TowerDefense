@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://co2msqieo0s56"]
+[gd_scene load_steps=5 format=3 uid="uid://co2msqieo0s56"]
 
 [ext_resource type="Script" path="res://Scripts/Game.cs" id="1_yg2as"]
-[ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Towers/Tower.tscn" id="2_f6stt"]
 [ext_resource type="PackedScene" uid="uid://cdttlkqc3vrn0" path="res://Scenes/EndZone.tscn" id="3_mm1a1"]
 [ext_resource type="PackedScene" uid="uid://dan6g1upe4cgg" path="res://Scenes/LevelOne.tscn" id="3_xdsh8"]
 [ext_resource type="PackedScene" uid="uid://0y2b4dbt12p1" path="res://Scenes/UICanvas.tscn" id="5_gk56f"]
@@ -10,9 +9,6 @@
 script = ExtResource("1_yg2as")
 
 [node name="Towers" type="Node" parent="."]
-
-[node name="Tower" parent="Towers" instance=ExtResource("2_f6stt")]
-position = Vector2(377, 379)
 
 [node name="LevelOne" parent="." instance=ExtResource("3_xdsh8")]
 

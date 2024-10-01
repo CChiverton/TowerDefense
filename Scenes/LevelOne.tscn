@@ -10,13 +10,13 @@ gradient = SubResource("Gradient_skuop")
 
 [sub_resource type="Curve2D" id="Curve2D_nqyku"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -8, 347, 0, 0, 0, 0, 441, 348, 0, 0, 0, 0, 441, 212, 0, 0, 0, 0, 1145, 211)
+"points": PackedVector2Array(0, 0, 0, 0, -8, 352, 0, 0, 0, 0, 256, 352, 0, 0, 0, 0, 256, 208, 0, 0, 0, 0, 480, 208, 0, 0, 0, 0, 480, 448, 0, 0, 0, 0, 256, 448, 0, 0, 0, 0, 256, 576, 0, 0, 0, 0, 704, 576, 0, 0, 0, 0, 704, 128, 0, 0, 0, 0, 1152, 128)
 }
-point_count = 4
+point_count = 10
 
 [node name="LevelOne" type="Node2D"]
 script = ExtResource("1_ffqvx")
-EnemyScene = ExtResource("3_fkjc3")
+_basicEnemy = ExtResource("3_fkjc3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4.5, 648)
@@ -26,6 +26,10 @@ centered = false
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_nqyku")
 
-[node name="EnemyTimer" type="Timer" parent="."]
+[node name="SpawnDelayTimer" type="Timer" parent="."]
+wait_time = 5.0
 
-[connection signal="timeout" from="EnemyTimer" to="." method="OnEnemyTimerTimeout"]
+[node name="WaveOneTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="SpawnDelayTimer" to="." method="OnSpawnDelayTimerTimeout"]
+[connection signal="timeout" from="WaveOneTimer" to="." method="OnWaveOneTimerTimeout"]
