@@ -68,7 +68,7 @@ public partial class Tower : Area2D
 	
 	private void OnAttackRangeAreaEntered(Node2D body)
 	{
-		if (body.IsInGroup("Enemies"))
+		if (body.IsInGroup("Enemies") && body.IsInGroup("Units"))
 		{
 			_enemiesInRange.Add(body);
 		}
@@ -76,7 +76,7 @@ public partial class Tower : Area2D
 	
 	private void OnAttackRangeAreaExited(Node2D body)
 	{
-		if (body.IsInGroup("Enemies"))
+		if (body.IsInGroup("Enemies") && body.IsInGroup("Units"))
 		{
 			_enemiesInRange.Remove(body);
 			float Distance = Position.DistanceTo(body.GlobalPosition);

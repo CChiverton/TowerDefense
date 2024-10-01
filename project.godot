@@ -27,6 +27,7 @@ project/assembly_name="TowerDefense"
 
 Enemies="All units that are targetable by Tower"
 Players=""
+Units="Entities that can be move around and be destroyed"
 
 [input]
 

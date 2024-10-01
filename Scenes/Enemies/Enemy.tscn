@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_nhedj"]
 radius = 8.0
 
-[node name="Enemy" type="Area2D" groups=["Enemies"]]
+[node name="Enemy" type="Area2D" groups=["Enemies", "Units"]]
 collision_layer = 4
 collision_mask = 10
 script = ExtResource("1_74ocu")
