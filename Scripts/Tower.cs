@@ -6,6 +6,7 @@ public partial class Tower : Area2D
 {
 	private float _posX, _posY;
 	private int _health = 50;
+	private ProgressBar HealthBar;
 	[Export]
 	private float _attackRange {get; set;}
 	private Timer ShootCooldown;
@@ -33,7 +34,9 @@ public partial class Tower : Area2D
 		AttackRange.SetRadius(_attackRange);
 		Sprite2D AttackRangeIndicator = (Sprite2D)GetNode<Sprite2D>("AttackRange/Sprite2D");
 		AttackRangeIndicator.Scale = (new Vector2((_attackRange*2)/AttackRangeIndicator.Texture.GetWidth(),(_attackRange*2)/AttackRangeIndicator.Texture.GetHeight()));
-		
+		HealthBar = GetNode<ProgressBar>("HealthBar");
+		HealthBar.MaxValue = _health;
+		HealthBar.Visible = false;
 	}
 	
 	public void SetAttackRangeVisibility(bool active)
@@ -80,6 +83,8 @@ public partial class Tower : Area2D
 						{
 							QueueFree();
 						}
+						HealthBar.Visible = true;
+						HealthBar.Value = _health;
 						_movement -= _enemyCollision;
 					}
 				}
