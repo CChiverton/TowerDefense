@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://0y2b4dbt12p1"]
+[gd_scene load_steps=9 format=3 uid="uid://0y2b4dbt12p1"]
 
 [ext_resource type="Script" path="res://Scripts/UI/LifeCounter.cs" id="1_5ki04"]
 [ext_resource type="Script" path="res://Scripts/UI/GoldCounter.cs" id="2_d301u"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/UI/ShopButtons.cs" id="4_enic8"]
 [ext_resource type="Script" path="res://Scripts/UI/BoardValueCounter.cs" id="4_gmqq4"]
 [ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Towers/Tower.tscn" id="5_03yq2"]
+[ext_resource type="Script" path="res://Scripts/UI/HealthMultiplierCounter.cs" id="5_lo7ly"]
 
 [node name="UICanvas" type="CanvasLayer"]
 
@@ -59,6 +60,16 @@ grow_horizontal = 0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Board Value: "
 script = ExtResource("4_gmqq4")
+
+[node name="HealthMultiplierCounter" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 954.0
+offset_top = 40.0
+offset_right = 1094.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Health Multiplier: "
+script = ExtResource("5_lo7ly")
 
 [node name="Shop" type="AspectRatioContainer" parent="UI"]
 layout_mode = 1

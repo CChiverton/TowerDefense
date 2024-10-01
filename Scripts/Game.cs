@@ -8,12 +8,14 @@ public partial class Game : Node2D
 	public int Gold = 100;
 	private int _score = 0;
 	public int BoardValue = 0;
+	public float HealthMultiplier = 1;
 	
 	//UI
 	private LifeCounter _lifeCounter;
 	private GoldCounter _goldCounter;
 	private ScoreCounter _scoreCounter;
 	private BoardValueCounter _boardValueCounter;
+	private HealthMultiplierCounter _healthMultiplierCounter;
 	private PackedScene _gameOver = GD.Load<PackedScene>("res://Scenes/GameOverScreen.tscn");
 	private bool _lossScreen = false;
 	private PackedScene _pausedScreen = GD.Load<PackedScene>("res://Scenes/PauseScreen.tscn");
@@ -38,31 +40,18 @@ public partial class Game : Node2D
 		_goldCounter = GetNode<GoldCounter>("UICanvas/UI/GoldCounter");
 		_scoreCounter = GetNode<ScoreCounter>("UICanvas/UI/ScoreCounter");
 		_boardValueCounter = GetNode<BoardValueCounter>("UICanvas/UI/BoardValueCounter");
+		_healthMultiplierCounter = GetNode<HealthMultiplierCounter>("UICanvas/UI/HealthMultiplierCounter");
 		_lifeCounter.SetLives(Lives);
 		_goldCounter.SetGold(Gold);
 		_scoreCounter.SetScore(_score);
 		_boardValueCounter.SetValue(BoardValue);
+		_healthMultiplierCounter.SetMultiplier(HealthMultiplier);
 		_buildMode = false;
 		_debounce = false;
 		_cost = 0;
 	}
-
-	/************* Game functions *************/
 	
-	public void OnPlayerZoneLifeLoss()
-	{
-		if (_lossScreen == false)
-		{
-			Lives -= 1;
-			_lifeCounter.SetLives(Lives);
-			if ((Lives <= 0))
-			{
-				GameOverScreen GameOver = _gameOver.Instantiate<GameOverScreen>();
-				AddChild(GameOver);
-				_lossScreen = true;
-			}
-		}
-	}
+	/************UI Updates**************/
 	
 	public void ChangeGold(int gold)
 	{
@@ -80,6 +69,29 @@ public partial class Game : Node2D
 	{
 		BoardValue += value;
 		_boardValueCounter.SetValue(BoardValue);
+	}
+	
+	private void SetMultiplier()
+	{
+		HealthMultiplier = 1 + BoardValue / 500.0F;
+		_healthMultiplierCounter.SetMultiplier(HealthMultiplier);
+	}
+	
+	/************* Game functions *************/
+	
+	public void OnPlayerZoneLifeLoss()
+	{
+		if (_lossScreen == false)
+		{
+			Lives -= 1;
+			_lifeCounter.SetLives(Lives);
+			if ((Lives <= 0))
+			{
+				GameOverScreen GameOver = _gameOver.Instantiate<GameOverScreen>();
+				AddChild(GameOver);
+				_lossScreen = true;
+			}
+		}
 	}
 	
 	private void BuildModeReset()
@@ -126,6 +138,7 @@ public partial class Game : Node2D
 				TowerBuild.TargetingActive = true;
 				ChangeGold(-_cost);
 				SetValue(_cost);
+				SetMultiplier();
 				BuildModeReset();
 			}
 			_debounce = true;

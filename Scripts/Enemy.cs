@@ -16,7 +16,7 @@ public partial class Enemy : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_health = _health * (1 +(float)(GetNode<Game>("/root/Game").BoardValue / 500.0F));
+		_health = _health * GetNode<Game>("/root/Game").HealthMultiplier;
 		HealthBar = GetNode<ProgressBar>("HealthBar");
 		HealthBar.MaxValue = _health;
 		HealthBar.Visible = false;
