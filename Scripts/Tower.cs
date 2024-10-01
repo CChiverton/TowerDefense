@@ -92,21 +92,22 @@ public partial class Tower : Area2D
 	{
 		if (TargetingActive)
 		{
-			Node2D NearestEnemy = null;
-			float NearestDistance = 1000;
-
-			foreach (Node2D enemy in GetTree().GetNodesInGroup("Enemies"))
+			if (_enemiesInRange.Count > 0)
 			{
-				float Distance = Position.DistanceTo(enemy.GlobalPosition);
+				Node2D NearestEnemy = null;
+				float NearestDistance = _attackRange * 2;  // Distance to the centre of an enemy is greater than to the edge
 
-				if (Distance < NearestDistance)
+				foreach (Node2D enemy in _enemiesInRange)
 				{
-					NearestDistance = Distance;
-					NearestEnemy = enemy;
+					float Distance = Position.DistanceTo(enemy.GlobalPosition);
+					
+					if (Distance < NearestDistance)
+					{
+						NearestDistance = Distance;
+						NearestEnemy = enemy;
+					}
 				}
-			}
-			if (NearestDistance < _attackRange)
-			{
+
 				Shoot(NearestEnemy);
 			}
 		}
