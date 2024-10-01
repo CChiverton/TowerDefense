@@ -6,6 +6,7 @@ public partial class Enemy : Area2D
 	public float Speed = 50.0F;
 	[Export]
 	private float _health {get; set;}
+	private ProgressBar HealthBar;
 
 	[Signal]
 	public delegate void PlayerBaseReachedEventHandler();
@@ -16,6 +17,9 @@ public partial class Enemy : Area2D
 	public override void _Ready()
 	{
 		_health = _health * (1 +(float)(GetNode<Game>("/root/Game").BoardValue / 500.0F));
+		HealthBar = GetNode<ProgressBar>("HealthBar");
+		HealthBar.MaxValue = _health;
+		HealthBar.Visible = false;
 	}
 
 	private void OnAreaEntered(Node2D body)
@@ -33,6 +37,7 @@ public partial class Enemy : Area2D
 	// Called by a bullet colliding with this unit
 	public bool BulletHit(int damage)
 	{
+		HealthBar.Visible = true;
 		if ((_health -= damage) <= 0)
 		{
 			EmitSignal(SignalName.UnitHit);
@@ -40,10 +45,15 @@ public partial class Enemy : Area2D
 		}
 		return false;
 	}
+	
+	private void UpdateHealthBar()
+	{
+		HealthBar.Value = _health;
+	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+		UpdateHealthBar();
 	}
 }
