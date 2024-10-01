@@ -10,7 +10,7 @@ gradient = SubResource("Gradient_skuop")
 
 [sub_resource type="Curve2D" id="Curve2D_nqyku"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -8, 352, 0, 0, 0, 0, 256, 352, 0, 0, 0, 0, 256, 208, 0, 0, 0, 0, 480, 208, 0, 0, 0, 0, 480, 448, 0, 0, 0, 0, 256, 448, 0, 0, 0, 0, 256, 576, 0, 0, 0, 0, 704, 576, 0, 0, 0, 0, 704, 128, 0, 0, 0, 0, 1152, 128)
+"points": PackedVector2Array(0, 0, 0, 0, -16, 320, 0, 0, 0, 0, 256, 320, 0, 0, 0, 0, 256, 208, 0, 0, 0, 0, 480, 208, 0, 0, 0, 0, 480, 416, 0, 0, 0, 0, 256, 416, 0, 0, 0, 0, 256, 512, 0, 0, 0, 0, 704, 512, 0, 0, 0, 0, 704, 128, 0, 0, 0, 0, 1152, 128)
 }
 point_count = 10
 
@@ -28,8 +28,19 @@ curve = SubResource("Curve2D_nqyku")
 
 [node name="SpawnDelayTimer" type="Timer" parent="."]
 wait_time = 5.0
+one_shot = true
 
-[node name="WaveOneTimer" type="Timer" parent="."]
+[node name="Waves" type="Node" parent="."]
+
+[node name="BasicSpreadTimer" type="Timer" parent="Waves"]
+
+[node name="BasicNormalTimer" type="Timer" parent="Waves"]
+wait_time = 0.75
+
+[node name="BasicPackedTimer" type="Timer" parent="Waves"]
+wait_time = 0.5
 
 [connection signal="timeout" from="SpawnDelayTimer" to="." method="OnSpawnDelayTimerTimeout"]
-[connection signal="timeout" from="WaveOneTimer" to="." method="OnWaveOneTimerTimeout"]
+[connection signal="timeout" from="Waves/BasicSpreadTimer" to="." method="OnBasicSpreadTimerTimeout"]
+[connection signal="timeout" from="Waves/BasicNormalTimer" to="." method="OnBasicNormalTimerTimeout"]
+[connection signal="timeout" from="Waves/BasicPackedTimer" to="." method="OnBasicPackedTimerTimeout"]
