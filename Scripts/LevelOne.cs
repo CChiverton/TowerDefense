@@ -5,15 +5,29 @@ public partial class LevelOne : Node2D
 {
 	[Export]
 	private PackedScene _basicEnemy {get; set;}
+	[Export]
+	private PackedScene _slowEnemy {get; set;}
+	[Export]
+	private PackedScene _fastEnemy {get; set;}
 	
 	private Timer _spawnDelay;
 	private Timer _basicSpread;
 	private Timer _basicNormal;
 	private Timer _basicPacked;
+	private Timer _slowSpread;
+	private Timer _slowNormal;
+	private Timer _slowPacked;
+	private Timer _fastSpread;
+	private Timer _fastNormal;
+	private Timer _fastPacked;
 	
 	private int _wave = 0;
-	private int _spawns = 0;
-	private int _spawnNumber = 0;
+	private int _basicSpawns = 0;
+	private int _basicSpawnNumber = 0;
+	private int _slowSpawns = 0;
+	private int _slowSpawnNumber = 0;
+	private int _fastSpawns = 0;
+	private int _fastSpawnNumber = 0;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -23,37 +37,82 @@ public partial class LevelOne : Node2D
 		_basicSpread = GetNode<Timer>("Waves/BasicSpreadTimer");
 		_basicNormal = GetNode<Timer>("Waves/BasicNormalTimer");
 		_basicPacked = GetNode<Timer>("Waves/BasicPackedTimer");
+		_slowSpread = GetNode<Timer>("Waves/SlowSpreadTimer");
+		_slowNormal = GetNode<Timer>("Waves/SlowNormalTimer");
+		_slowPacked = GetNode<Timer>("Waves/SlowPackedTimer");
+		_fastSpread = GetNode<Timer>("Waves/FastSpreadTimer");
+		_fastNormal = GetNode<Timer>("Waves/FastNormalTimer");
+		_fastPacked = GetNode<Timer>("Waves/FastPackedTimer");
 	}
 	
-	private void SetSpawns(int num)
+	private void SetBasicSpawns(int num)
 	{
-		_spawns = 0;
-		_spawnNumber = num;
+		_basicSpawns = 0;
+		_basicSpawnNumber = num;
+	}
+	
+	private void SetSlowSpawns(int num)
+	{
+		_slowSpawns = 0;
+		_slowSpawnNumber = num;
+	}
+	
+	private void SetFastSpawns(int num)
+	{
+		_fastSpawns = 0;
+		_fastSpawnNumber = num;
 	}
 	
 	private void SpawnBasicEnemy()
 	{
 		var enemy = _basicEnemy.Instantiate<PathFollow2D>();
 		GetNode("Path2D").AddChild(enemy);
-		_spawns++;
+		_basicSpawns++;
+	}
+	
+	private void SpawnSlowEnemy()
+	{
+		var enemy = _slowEnemy.Instantiate<PathFollow2D>();
+		GetNode("Path2D").AddChild(enemy);
+		_slowSpawns++;
+	}
+	
+	private void SpawnFastEnemy()
+	{
+		var enemy = _fastEnemy.Instantiate<PathFollow2D>();
+		GetNode("Path2D").AddChild(enemy);
+		_fastSpawns++;
 	}
 	
 	public void OnSpawnDelayTimerTimeout()
 	{
-		_spawns = 0;
 		switch(++_wave)
 		{
 			case 1:
-				SetSpawns(10);
+				SetBasicSpawns(10);
 				_basicNormal.Start();
 				break;
 			case 2:
-				SetSpawns(20);
+				SetBasicSpawns(15);
 				_basicSpread.Start();
 				break;
 			case 3:
-				SetSpawns(5);
+				SetBasicSpawns(5);
 				_basicPacked.Start();
+				break;
+			case 4:
+				SetSlowSpawns(5);
+				_slowNormal.Start();
+				break;
+			case 5:
+				SetFastSpawns(10);
+				_fastSpread.Start();
+				break;
+			case 6:
+				SetSlowSpawns(5);
+				_slowPacked.Start();
+				SetFastSpawns(10);
+				_fastPacked.Start();
 				break;
 			default:
 				GD.Print("Wave number unrecognised");
@@ -61,36 +120,123 @@ public partial class LevelOne : Node2D
 		}
 	}
 	
+	private bool BasicSpawnCheck()
+	{
+		if (_basicSpawns == _basicSpawnNumber)
+		{
+			_spawnDelay.Start();
+			_basicSpawns = 0;
+			GD.Print("Basic check done");
+			return true;
+		}
+		return false;
+	}
+	
+	private bool SlowSpawnCheck()
+	{
+		if (_slowSpawns == _slowSpawnNumber)
+		{
+			_spawnDelay.Start();
+			_slowSpawns = 0;
+			GD.Print("Slow check done");
+			return true;
+		}
+		return false;
+	}
+	
+	private bool FastSpawnCheck()
+	{
+		if (_fastSpawns == _fastSpawnNumber)
+		{
+			_spawnDelay.Start();
+			_fastSpawns = 0;
+			GD.Print("Fast check done");
+			return true;
+		}
+		return false;
+	}
+	
 	private void OnBasicSpreadTimerTimeout()
 	{
 		SpawnBasicEnemy();
-		if (_spawns == _spawnNumber)
+		if (BasicSpawnCheck())
 		{
 			_basicSpread.Stop();
-			_spawnDelay.Start();
 		}
 	}
 	
 	private void OnBasicNormalTimerTimeout()
 	{
 		SpawnBasicEnemy();
-		if (_spawns == _spawnNumber)
+		if (BasicSpawnCheck())
 		{
 			_basicNormal.Stop();
-			_spawnDelay.Start();
 		}
 	}
 	
 	private void OnBasicPackedTimerTimeout()
 	{
 		SpawnBasicEnemy();
-		if (_spawns == _spawnNumber)
+		if (BasicSpawnCheck())
 		{
 			_basicPacked.Stop();
-			_spawnDelay.Start();
 		}
 	}
 
+	private void OnSlowSpreadTimerTimeout()
+	{
+		SpawnSlowEnemy();
+		if (SlowSpawnCheck())
+		{
+			_slowSpread.Stop();
+		}
+	}
+	
+	private void OnSlowNormalTimerTimeout()
+	{
+		SpawnSlowEnemy();
+		if (SlowSpawnCheck())
+		{
+			_slowNormal.Stop();
+		}
+	}
+	
+	private void OnSlowPackedTimerTimeout()
+	{
+		SpawnSlowEnemy();
+		if (SlowSpawnCheck())
+		{
+			_slowPacked.Stop();
+		}
+	}
+	
+	private void OnFastSpreadTimerTimeout()
+	{
+		SpawnFastEnemy();
+		if (FastSpawnCheck())
+		{
+			_fastSpread.Stop();
+		}
+	}
+	
+	private void OnFastNormalTimerTimeout()
+	{
+		SpawnFastEnemy();
+		if (FastSpawnCheck())
+		{
+			_fastNormal.Stop();
+		}
+	}
+	
+	private void OnFastPackedTimerTimeout()
+	{
+		SpawnFastEnemy();
+		if (FastSpawnCheck())
+		{
+			_fastPacked.Stop();
+		}
+	}
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{

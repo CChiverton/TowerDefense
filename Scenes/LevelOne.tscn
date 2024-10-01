@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dan6g1upe4cgg"]
+[gd_scene load_steps=8 format=3 uid="uid://dan6g1upe4cgg"]
 
 [ext_resource type="Script" path="res://Scripts/LevelOne.cs" id="1_ffqvx"]
+[ext_resource type="PackedScene" uid="uid://b2udskvbp5kn0" path="res://Scenes/Enemies/SlowEnemy.tscn" id="3_15hh7"]
 [ext_resource type="PackedScene" uid="uid://bwqsplsljtifi" path="res://Scenes/Enemies/BasicEnemy.tscn" id="3_fkjc3"]
+[ext_resource type="PackedScene" uid="uid://demjg4no43p6e" path="res://Scenes/Enemies/FastEnemy.tscn" id="4_lbhry"]
 
 [sub_resource type="Gradient" id="Gradient_skuop"]
 
@@ -17,6 +19,8 @@ point_count = 10
 [node name="LevelOne" type="Node2D"]
 script = ExtResource("1_ffqvx")
 _basicEnemy = ExtResource("3_fkjc3")
+_slowEnemy = ExtResource("3_15hh7")
+_fastEnemy = ExtResource("4_lbhry")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4.5, 648)
@@ -40,7 +44,30 @@ wait_time = 0.75
 [node name="BasicPackedTimer" type="Timer" parent="Waves"]
 wait_time = 0.5
 
+[node name="SlowSpreadTimer" type="Timer" parent="Waves"]
+wait_time = 1.2
+
+[node name="SlowNormalTimer" type="Timer" parent="Waves"]
+
+[node name="SlowPackedTimer" type="Timer" parent="Waves"]
+wait_time = 0.8
+
+[node name="FastSpreadTimer" type="Timer" parent="Waves"]
+wait_time = 0.6
+
+[node name="FastNormalTimer" type="Timer" parent="Waves"]
+wait_time = 0.4
+
+[node name="FastPackedTimer" type="Timer" parent="Waves"]
+wait_time = 0.2
+
 [connection signal="timeout" from="SpawnDelayTimer" to="." method="OnSpawnDelayTimerTimeout"]
 [connection signal="timeout" from="Waves/BasicSpreadTimer" to="." method="OnBasicSpreadTimerTimeout"]
 [connection signal="timeout" from="Waves/BasicNormalTimer" to="." method="OnBasicNormalTimerTimeout"]
 [connection signal="timeout" from="Waves/BasicPackedTimer" to="." method="OnBasicPackedTimerTimeout"]
+[connection signal="timeout" from="Waves/SlowSpreadTimer" to="." method="OnSlowSpreadTimerTimeout"]
+[connection signal="timeout" from="Waves/SlowNormalTimer" to="." method="OnSlowNormalTimerTimeout"]
+[connection signal="timeout" from="Waves/SlowPackedTimer" to="." method="OnSlowPackedTimerTimeout"]
+[connection signal="timeout" from="Waves/FastSpreadTimer" to="." method="OnFastSpreadTimerTimeout"]
+[connection signal="timeout" from="Waves/FastNormalTimer" to="." method="OnFastNormalTimerTimeout"]
+[connection signal="timeout" from="Waves/FastPackedTimer" to="." method="OnFastPackedTimerTimeout"]
