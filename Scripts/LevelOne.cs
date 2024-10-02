@@ -28,6 +28,8 @@ public partial class LevelOne : Node2D
 	private int _slowSpawnNumber = 0;
 	private int _fastSpawns = 0;
 	private int _fastSpawnNumber = 0;
+	
+	private bool _waveCleared = true;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -86,63 +88,70 @@ public partial class LevelOne : Node2D
 	
 	public void OnSpawnDelayTimerTimeout()
 	{
-		switch(++_wave)
+		if (_waveCleared)
 		{
-			case 1:
-				SetBasicSpawns(10);
-				_basicNormal.Start();
-				break;
-			case 2:
-				SetBasicSpawns(15);
-				_basicSpread.Start();
-				break;
-			case 3:
-				SetBasicSpawns(5);
-				_basicPacked.Start();
-				break;
-			case 4:
-				SetSlowSpawns(5);
-				_slowNormal.Start();
-				break;
-			case 5:
-				SetFastSpawns(10);
-				_fastSpread.Start();
-				break;
-			case 6:
-				SetSlowSpawns(5);
-				_slowPacked.Start();
-				SetFastSpawns(10);
-				_fastPacked.Start();
-				break;
-			case 7:
-				SetSlowSpawns(10);
-				_slowNormal.Start();
-				SetBasicSpawns(10);
-				_basicNormal.Start();
-				break;
-			case 8:
-				SetSlowSpawns(5);
-				_slowSpread.Start();
-				SetBasicSpawns(10);
-				_basicSpread.Start();
-				SetFastSpawns(5);
-				_fastPacked.Start();
-				break;
-			case 9:
-				SetBasicSpawns(10);
-				_basicPacked.Start();
-				SetFastSpawns(20);
-				_fastSpread.Start();
-				break;
-			case 10:
-				SetSlowSpawns(15);
-				_slowSpread.Start();
-				SetBasicSpawns(20);
-				_basicNormal.Start();
-				break;
-			default:
-				GD.Print("Wave number unrecognised");
-				break;
+			switch(++_wave)
+			{
+				case 1:
+					SetBasicSpawns(10);
+					_basicNormal.Start();
+					break;
+				case 2:
+					SetBasicSpawns(15);
+					_basicSpread.Start();
+					break;
+				case 3:
+					SetBasicSpawns(5);
+					_basicPacked.Start();
+					break;
+				case 4:
+					SetSlowSpawns(5);
+					_slowNormal.Start();
+					break;
+				case 5:
+					SetFastSpawns(10);
+					_fastSpread.Start();
+					break;
+				case 6:
+					SetSlowSpawns(5);
+					_slowPacked.Start();
+					SetFastSpawns(10);
+					_fastPacked.Start();
+					break;
+				case 7:
+					SetSlowSpawns(10);
+					_slowNormal.Start();
+					SetBasicSpawns(10);
+					_basicNormal.Start();
+					break;
+				case 8:
+					SetSlowSpawns(5);
+					_slowSpread.Start();
+					SetBasicSpawns(10);
+					_basicSpread.Start();
+					SetFastSpawns(5);
+					_fastPacked.Start();
+					break;
+				case 9:
+					SetBasicSpawns(10);
+					_basicPacked.Start();
+					SetFastSpawns(20);
+					_fastSpread.Start();
+					break;
+				case 10:
+					SetSlowSpawns(15);
+					_slowSpread.Start();
+					SetBasicSpawns(20);
+					_basicNormal.Start();
+					break;
+				default:
+					GD.Print("Wave number unrecognised");
+					break;
+			}
+			_waveCleared = false;
+		} else {
+			if (GetNode("Path2D").GetChildCount() == 0) _waveCleared = true;
+			_spawnDelay.Start();
 		}
 	}
 	
