@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://wqumre6abce2"]
+[gd_scene load_steps=6 format=3 uid="uid://wqumre6abce2"]
 
 [ext_resource type="Script" path="res://Scripts/Tower.cs" id="1_f2s8p"]
+[ext_resource type="PackedScene" uid="uid://dsui1i5xk4x6i" path="res://Scenes/Towers/Bullet.tscn" id="2_7ateh"]
 [ext_resource type="Texture2D" uid="uid://dgo647ogpu8es" path="res://Assets/Textures/Tower.png" id="2_ttak4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3kj81"]
@@ -12,8 +13,12 @@ radius = 14.1421
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_f2s8p")
-_health = 50
+_health = 30
 _attackRange = 150.0
+_bullet = ExtResource("2_7ateh")
+_backMove = 10.0
+_forwardMove = 20.0
+_speed = 25.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.25, 0.25)

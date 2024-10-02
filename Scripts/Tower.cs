@@ -9,18 +9,27 @@ public partial class Tower : Area2D
 	private int _health {get; set;}
 	private ProgressBar _healthBar;
 	// Tower Attacking
+	[ExportGroup("Attacking")]
 	[Export]
 	private float _attackRange {get; set;}
 	private Timer _shootCooldown;
+	[Export]
+	private float _shootCooldownDuration {get; set;} = 0.5F;
 	public bool TargetingActive = true;
 	private List<Node2D> _enemiesInRange = new List<Node2D>();
-	private PackedScene _bullet = GD.Load<PackedScene>("res://Scenes/Bullet.tscn");
+	[Export]
+	private PackedScene _bullet {get; set;}
 	//Tower Movement
+	[ExportGroup("Movement")]
 	private float _movement = 0;
-	private float _backMove = 5;
-	private float _forwardMove = 15;
-	private float _enemyCollision = 50;
-	private float _speed = 20;
+	[Export]
+	private float _backMove {get; set;} = 5;
+	[Export]
+	private float _forwardMove {get; set;} = 15;
+	[Export]
+	private float _enemyCollision {get; set;} = 50;
+	[Export]
+	private float _speed {get; set;} = 20;
 	
 	[Signal]
 	public delegate void EnemyKilledEventHandler();
@@ -29,6 +38,7 @@ public partial class Tower : Area2D
 	public override void _Ready()
 	{
 		_shootCooldown = GetNode<Timer>("ShootTimer");
+		_shootCooldown.WaitTime = _shootCooldownDuration;
 		EnemyKilled += GetNode<Game>("/root/Game").IncrementScore;
 		
 		CircleShape2D AttackRange = (CircleShape2D)GetNode<CollisionShape2D>("AttackRange/AttackRangeCollider").Shape;

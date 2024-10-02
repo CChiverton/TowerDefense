@@ -4,9 +4,10 @@ using System;
 public partial class Bullet : Area2D
 {
 	public Vector2 Direction = Vector2.Zero;
-	private int Speed = 300;
 	[Export]
-	private int _damage {get; set;}
+	private int Speed {get; set;} = 350;
+	[Export]
+	private int _damage {get; set;} = 5;
 	
 	[Signal]		// Called when the bullet collides with an enemy
 	public delegate void EnemyHitEventHandler();
