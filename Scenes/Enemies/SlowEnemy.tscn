@@ -9,7 +9,7 @@ script = ExtResource("1_c0nfe")
 
 [node name="Enemy" parent="." instance=ExtResource("2_3jsww")]
 scale = Vector2(1.2, 1.2)
-_health = 8.0
+_health = 12.0
 Speed = 35.0
 Value = 3
 
