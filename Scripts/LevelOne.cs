@@ -114,6 +114,32 @@ public partial class LevelOne : Node2D
 				SetFastSpawns(10);
 				_fastPacked.Start();
 				break;
+			case 7:
+				SetSlowSpawns(10);
+				_slowNormal.Start();
+				SetBasicSpawns(10);
+				_basicNormal.Start();
+				break;
+			case 8:
+				SetSlowSpawns(5);
+				_slowSpread.Start();
+				SetBasicSpawns(10);
+				_basicSpread.Start();
+				SetFastSpawns(5);
+				_fastPacked.Start();
+				break;
+			case 9:
+				SetBasicSpawns(10);
+				_basicPacked.Start();
+				SetFastSpawns(20);
+				_fastSpread.Start();
+				break;
+			case 10:
+				SetSlowSpawns(15);
+				_slowSpread.Start();
+				SetBasicSpawns(20);
+				_basicNormal.Start();
+				break;
 			default:
 				GD.Print("Wave number unrecognised");
 				break;
@@ -126,7 +152,6 @@ public partial class LevelOne : Node2D
 		{
 			_spawnDelay.Start();
 			_basicSpawns = 0;
-			GD.Print("Basic check done");
 			return true;
 		}
 		return false;
@@ -138,7 +163,6 @@ public partial class LevelOne : Node2D
 		{
 			_spawnDelay.Start();
 			_slowSpawns = 0;
-			GD.Print("Slow check done");
 			return true;
 		}
 		return false;
@@ -150,7 +174,6 @@ public partial class LevelOne : Node2D
 		{
 			_spawnDelay.Start();
 			_fastSpawns = 0;
-			GD.Print("Fast check done");
 			return true;
 		}
 		return false;
