@@ -15,6 +15,7 @@ collision_mask = 4
 script = ExtResource("1_f2s8p")
 _health = 30
 _attackRange = 150.0
+_shootCooldownDuration = 0.7
 _bullet = ExtResource("2_7ateh")
 _backMove = 10.0
 _forwardMove = 20.0
@@ -47,7 +48,7 @@ offset_bottom = -18.0
 show_percentage = false
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.7
 one_shot = true
 
 [node name="Bullets" type="Node" parent="."]
