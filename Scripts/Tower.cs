@@ -8,6 +8,7 @@ public partial class Tower : Area2D
 	[Export]
 	private int _health {get; set;}
 	private ProgressBar _healthBar;
+	private int _healthDamageOnHit = 10;
 	// Tower Attacking
 	[ExportGroup("Attacking")]
 	[Export]
@@ -167,20 +168,17 @@ public partial class Tower : Area2D
 				// On colliding with an Endzone
 				if (body.HasMethod("DestroyTower"))
 				{
+					// Lose lives, tower health, and bounce back
 					body.Call("DestroyTower");
-					QueueFree();
+					_health -= _healthDamageOnHit;
+					_movement -= _enemyCollision * 2;
 				}
 				// On colliding with an enemy unit
 				if (body.HasMethod("BulletHit"))
 				{
 					if ((bool)body.Call("BulletHit", 10000000))	// Guarantee enemy death
 					{
-						if ((_health -= 10) <= 0)
-						{
-							QueueFree();
-						}
-						_healthBar.Visible = true;
-						_healthBar.Value = _health;
+						_health -= _healthDamageOnHit;
 						_movement -= _enemyCollision;
 					}
 				}
@@ -191,9 +189,24 @@ public partial class Tower : Area2D
 				if (body.HasMethod("DestroyTower"))
 				{
 					body.Call("DestroyTower");
-					QueueFree();
+					_health -= _healthDamageOnHit;
+					_movement += _enemyCollision * 2;
 				}
 			}
+			
+			if (_health <= 0)	// Failsafe destruction of tower
+			{
+				QueueFree();
+			}
+		}
+	}
+	
+	private void UpdateHealthBar()
+	{
+		if (_health < _healthBar.MaxValue)
+		{
+			_healthBar.Visible = true;
+			_healthBar.Value = _health;
 		}
 	}
 	
@@ -205,5 +218,6 @@ public partial class Tower : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		UpdateHealthBar();
 	}
 }
