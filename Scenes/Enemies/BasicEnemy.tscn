@@ -8,6 +8,7 @@ loop = false
 script = ExtResource("1_61b5p")
 
 [node name="Enemy" parent="." instance=ExtResource("2_qh43b")]
+_health = 8.0
 Speed = 50.0
 Value = 1
 
