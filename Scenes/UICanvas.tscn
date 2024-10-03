@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://0y2b4dbt12p1"]
+[gd_scene load_steps=11 format=3 uid="uid://0y2b4dbt12p1"]
 
 [ext_resource type="Script" path="res://Scripts/UI/LifeCounter.cs" id="1_5ki04"]
 [ext_resource type="Script" path="res://Scripts/UI/GoldCounter.cs" id="2_d301u"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://Scripts/UI/BoardValueCounter.cs" id="4_gmqq4"]
 [ext_resource type="PackedScene" uid="uid://wqumre6abce2" path="res://Scenes/Towers/Tower.tscn" id="5_03yq2"]
 [ext_resource type="Script" path="res://Scripts/UI/HealthMultiplierCounter.cs" id="5_lo7ly"]
+[ext_resource type="PackedScene" uid="uid://b2ryc5ii6o2bi" path="res://Scenes/Towers/SlowTower.tscn" id="8_lwfbm"]
+[ext_resource type="PackedScene" uid="uid://do23j2ogogwm5" path="res://Scenes/Towers/FastTower.tscn" id="10_nlsng"]
 
 [node name="UICanvas" type="CanvasLayer"]
 
@@ -72,6 +74,7 @@ text = "Health Multiplier: "
 script = ExtResource("5_lo7ly")
 
 [node name="Shop" type="AspectRatioContainer" parent="UI"]
+layout_direction = 2
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -80,10 +83,26 @@ anchor_bottom = 1.0
 offset_top = -80.0
 grow_horizontal = 2
 grow_vertical = 0
-ratio = 1.25
+ratio = 4.5
 
-[node name="BasicTowerButton" type="Button" parent="UI/Shop"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Shop"]
 layout_mode = 2
+
+[node name="SlowTowerButton" type="Button" parent="UI/Shop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Slow Tower"
+icon = ExtResource("3_01xf5")
+autowrap_mode = 2
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_enic8")
+TowerScene = ExtResource("8_lwfbm")
+
+[node name="BasicTowerButton" type="Button" parent="UI/Shop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Basic Tower"
 icon = ExtResource("3_01xf5")
@@ -93,4 +112,18 @@ expand_icon = true
 script = ExtResource("4_enic8")
 TowerScene = ExtResource("5_03yq2")
 
-[connection signal="button_down" from="UI/Shop/BasicTowerButton" to="UI/Shop/BasicTowerButton" method="OnButtonDown"]
+[node name="FastTowerButton" type="Button" parent="UI/Shop/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Fast Tower"
+icon = ExtResource("3_01xf5")
+autowrap_mode = 2
+icon_alignment = 1
+expand_icon = true
+script = ExtResource("4_enic8")
+TowerScene = ExtResource("10_nlsng")
+
+[connection signal="button_down" from="UI/Shop/HBoxContainer/SlowTowerButton" to="UI/Shop/HBoxContainer/SlowTowerButton" method="OnButtonDown"]
+[connection signal="button_down" from="UI/Shop/HBoxContainer/BasicTowerButton" to="UI/Shop/HBoxContainer/BasicTowerButton" method="OnButtonDown"]
+[connection signal="button_down" from="UI/Shop/HBoxContainer/FastTowerButton" to="UI/Shop/HBoxContainer/FastTowerButton" method="OnButtonDown"]

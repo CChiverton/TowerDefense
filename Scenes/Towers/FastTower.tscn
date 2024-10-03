@@ -17,8 +17,8 @@ _health = 20
 _attackRange = 200.0
 _shootCooldownDuration = 0.3
 _bullet = ExtResource("2_s4wgv")
-_backMove = 40.0
-_forwardMove = 30.0
+_backMove = 30.0
+_forwardMove = 50.0
 _enemyCollision = 100.0
 _speed = 50.0
 
